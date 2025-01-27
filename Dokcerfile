@@ -1,5 +1,20 @@
 FROM ollama/ollama:latest
 
+# Install huggingface_hub
 RUN python3 -m pip install huggingface_hub
 
-RUN python3 -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='deepseek-ai/DeepSeek-R1', repo_type='model', cache_dir='/usr/src/app/models/deepseek')"
+# Create directories for ollama models
+RUN mkdir -p /root/.ollama/models
+
+# Download and create Model file to load the model
+RUN <<EOF
+python3 -c 'from huggingface_hub import snapshot_download; snapshot_download(repo_id="deepseek-ai/DeepSeek-R1", repo_type="model", local_dir="/root/.ollama/models/deepseek", local_dir_use_symlinks=False)'
+echo 'FROM /root/.ollama/models/deepseek' > /root/.ollama/models/deepseek.Modelfile
+ollama create deepseek -f /root/.ollama/models/deepseek.Modelfile
+EOF
+
+# Expose the Ollama port (optional, only if you want to access it directly)
+# EXPOSE 11434
+
+# Set the entrypoint for Ollama
+CMD ["ollama", "serve"]
