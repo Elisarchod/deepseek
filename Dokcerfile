@@ -1,0 +1,5 @@
+FROM ollama/ollama:latest
+
+RUN python3 -m pip install huggingface_hub
+
+RUN python3 -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='deepseek-ai/DeepSeek-R1', repo_type='model', cache_dir='/usr/src/app/models/deepseek')"
