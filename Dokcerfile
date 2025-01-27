@@ -13,8 +13,4 @@ echo 'FROM /root/.ollama/models/deepseek' > /root/.ollama/models/deepseek.Modelf
 ollama create deepseek -f /root/.ollama/models/deepseek.Modelfile
 EOF
 
-# Expose the Ollama port (optional, only if you want to access it directly)
-# EXPOSE 11434
-
-# Set the entrypoint for Ollama
 CMD ["ollama", "serve"]
