@@ -32,18 +32,15 @@ COPY setup_model.sh /app/
 # Grant execute permission (do this BEFORE switching user)
 RUN chmod +x /app/setup_model.sh
 
-# Install Poetry (optional, if you need to install Python dependencies)
+# Install Poetry
 ENV POETRY_VERSION=1.7.1
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 -
 
-# Add Poetry to PATH (if needed)
+# Add Poetry to PATH
 ENV PATH="/opt/poetry/bin:$PATH"
 
-# Copy Poetry files (if needed)
-COPY pyproject.toml poetry.lock /app/
-
-# Install project dependencies with Poetry (if needed, and consider doing this as ollama user)
-# RUN poetry install --no-interaction --no-ansi
+# Copy pyproject.toml (you need to create this)
+COPY pyproject.toml /app/
 
 # Switch to the non-root user
 USER ollama
@@ -52,6 +49,9 @@ USER ollama
 ENV MODEL_REPO_ID="deepseek-ai/DeepSeek-R1"
 ENV MODEL_NAME="deepseek"
 ENV OLLAMA_MODELS=/usr/share/ollama
+
+# Install project dependencies and generate poetry.lock
+RUN poetry install --no-interaction --no-ansi
 
 # Run the setup script as ollama user to download and configure the model
 CMD ["/app/setup_model.sh"]
