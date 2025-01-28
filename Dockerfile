@@ -43,6 +43,9 @@ RUN chmod +x /app/setup_model.sh
 # Switch to the non-root user
 USER ollama
 
+# Reinstall huggingface_hub
+RUN poetry install --no-interaction --no-ansi
+
 # Environment variables for the Hugging Face model
 ENV MODEL_REPO_ID="deepseek-ai/DeepSeek-R1"
 ENV MODEL_NAME="deepseek"
