@@ -18,6 +18,9 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
+# Make Poetry executable
+RUN chmod +x /root/.local/bin/poetry
+
 # Copy only pyproject.toml (poetry.lock is generated later)
 COPY pyproject.toml /app/
 
@@ -43,7 +46,7 @@ RUN chmod +x /app/setup_model.sh
 # Switch to the non-root user
 USER ollama
 
-# Reinstall huggingface_hub
+# Reinstall dependencies for the ollama user
 RUN poetry install --no-interaction --no-ansi
 
 # Environment variables for the Hugging Face model
