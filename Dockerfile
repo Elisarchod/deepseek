@@ -37,7 +37,7 @@ RUN mkdir -p /data/models && \
 # Copy the script to download and set up the model
 COPY setup_model.sh /app/
 
-# *** Grant execute permission BEFORE switching user ***
+# Grant execute permission BEFORE switching user
 RUN chmod +x /app/setup_model.sh
 
 # Switch to the non-root user
