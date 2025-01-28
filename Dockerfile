@@ -34,8 +34,8 @@ COPY setup_model.sh /app/
 ENV MODEL_REPO_ID="deepseek-ai/DeepSeek-R1"
 ENV MODEL_NAME="deepseek"
 
-# Run the setup script to download and configure the model
-RUN /app/setup_model.sh
+# *** Grant execute permission to the script ***
+RUN chmod +x /app/setup_model.sh
 
 # Expose the Ollama API port
 EXPOSE 11434
