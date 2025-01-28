@@ -18,10 +18,10 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
-# Copy Poetry files
-COPY pyproject.toml poetry.lock /app/
+# Copy only pyproject.toml (poetry.lock is generated later)
+COPY pyproject.toml /app/
 
-# Install project dependencies with Poetry
+# Install dependencies and generate poetry.lock
 RUN poetry install --no-interaction --no-ansi
 
 # Install Ollama
